@@ -10,10 +10,12 @@ Android, with its vast global adoption and diverse hardware ecosystem, poses uni
 ## Hardware Requirements
 
 ### Testing Suite:
-- 3D printed [clamp system](clamp.std)
+- 3D printed [clamp system](/benchmark_suite_stls/)
 - Android phone ([Snapdragon 888 HDK](https://www.thundercomm.com/product/snapdragon-888-mobile-hardware-development-kit/))
 - Phone mount ([Ulanzi ST-02S](https://www.ulanzi.com/products/st-02s-phone-tripod-mount-ulanzi-0849?srsltid=AfmBOooc5W8Iicvjru_7bXeY8rilLFX3pwuqg84wT1xbrPrYcV1kROUQ) used)
 - USB Camera (Arducam OV9281 used) 
+
+**Note:** The USB camera is fixed to the 3D printed clamp system using the M2.5x30 bolts and spacers 
 
 ### Controlling Computer:
 - No specific requirements for the controlling computer. A GPU is recommended for real-time inference at 120FPS (~8.3ms per frame). Otherwise, a high-performance CPU can be used.
