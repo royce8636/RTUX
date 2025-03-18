@@ -6,6 +6,7 @@ import subprocess
 import time
 import re
 import queue
+import yaml
 
 from rtux_cnn.rtux_detection import RtuxDetect
 from rtux_cnn.utils import print
@@ -61,6 +62,7 @@ class QueueHandler:
         self.game, self.action = 0, 0
         self.abnormal = False
         self.abnormal_message = None
+        self.abnormal_count = 0
         # self.perfetto_out = f"/data/nfs/perfetto_trace_{self.comp_runs}"
         self.perfetto_out = f"/data/media/0/perfetto_trace_{self.comp_runs}"
         self.start_perfetto()
@@ -107,6 +109,7 @@ class QueueHandler:
         self.queue_event.set()
 
     def cleanup(self):
+        end_time = time.clock_gettime(time.CLOCK_BOOTTIME)
         self.rtux.kill, self.rtux.stop_event = True, True
         self.kill_script()
         print("Cleaning up:")
@@ -117,6 +120,20 @@ class QueueHandler:
             print("Perfetto already killed")
         self.rtux.write_queue.put(None)
         self.rtux.writer_thread.join()
+        times = 0
+        for i in range(self.comp_runs):
+            start_file = f"{self.org_path}/{i}/{i}.yaml"
+            with open(start_file, 'r') as f:
+                start_log = yaml.safe_load(f)
+            start_time = start_log[0]["Metrics"]["LINUX_MONOTONIC"]
+            end_time = start_log[-1]["Metrics"]["LINUX_MONOTONIC"]
+            times += (end_time - start_time)
+
+        print(f"Number of runs: {self.comp_runs}")
+        print(f"Abnormal runs: {self.abnormal_count}")
+        print(f"Successful runs: {self.comp_runs - self.abnormal_count}")
+        print(f"Total time: {times}s")
+        
         print("Exiting program")
         os._exit(0)
 
@@ -555,6 +572,7 @@ class QueueHandler:
                 os.system(f"adb -s {self.config.device} shell am start -a android.intent.action.MAIN -c android.intent.category.HOME")
 
                 if self.abnormal:
+                    self.abnormal_count += 1
                     with open(f"{self.config.rep_log_path}/abnormal.txt", 'w') as f:
                         f.write(self.abnormal_message)
                     self.abnormal_message = None

@@ -5,7 +5,7 @@
 ## Abstract
 Android, with its vast global adoption and diverse hardware ecosystem, poses unique challenges for performance benchmarking, particularly from a user-centric perspective. Traditional benchmarks often fail to capture the intricacies of user-perceived performance, relying on component-level metrics or synthetic workloads that do not reflect real-world usage. This paper proposes Real-Time User-Experience, RTUX, a novel benchmarking tool designed to measure Android system performance as perceived by users. RTUX employs external camera-based GUI state recognition and scenario-based testing to evaluate app load-times and in-app transitions under diverse conditions. Using CNN models and a unique system structure, RTUX reliably replays human-like interactions, enabling repeatable and robust performance assessments. Through experiments with 100 scenario repetitions involving popular Android apps, we uncover some system bottlenecks, such as suboptimal writeback configurations and I/O scheduler inefficiencies. The tool demonstrates how targeted optimizations can yield tangible improvements in user experience.
 
-**Note: For quick start, download the models from [zenodo](www.zenodo.com), then jump to [UXB](#user-experience-benchmark-uxb). TRTModel might need to be recompiled based on the GPU.**
+**Note: For quick start, go to [quickstart.md](/quickstart.md)**
 
 ## Hardware Requirements
 
@@ -24,10 +24,10 @@ Android, with its vast global adoption and diverse hardware ecosystem, poses uni
 ---
 
 ## State Separator (SS)
-RTUX uses CNN models to detect the stages of the app on the phone. In order to create the CNN models, three steps are required: (A) State Separation (B) Dataset Collection (C) Model Training 
+RTUX uses CNN models to detect the stages of the app on the phone. In order to create the CNN models, three steps are required: (A) State Separation (B) Dataset Collection (C) Model Training. **Again, for a quick start, please refer to [quickstart.md](/quickstart.md)**
 
 ### (A) State Separation
-This step is where the user chooses the app that will be tested, separate the app into multiple different stages (e.g., menu → loading → game). In below scripts, `<device serial>` is serial number of the device that can be found on `adb shell list`. This field can be omitted if only one android device is connected to the controlling computer. Please follow the videos if unsure.
+This step is where the user chooses the app that will be tested, separate the app into multiple different stages (e.g., menu → loading → game). In below scripts, `<device serial>` is serial number of the device that can be found on `adb shell list`. This field can be omitted if only one Android device is connected to the controlling computer. Please follow the videos if unsure.
 
 1. Find the activity of the app that is to be tested ([Demo video](https://youtu.be/sV2wAX-GAkM))
     - Activity is the main launch point of the app (e.g.,  `com.fingersoft.hillclimb/com.fingersoft.game.MainActivity`)
@@ -74,7 +74,7 @@ The process of model training has to be done for each state in each app. Use `tr
 
 
 ## User-Experience Benchmark (UXB)
-The Android phone can now be benchmarked using the models and scenario scripts created from above. There are some setups that has to be done on the android device being tested before. ([Demo video](https://youtu.be/99ocM8-5nS0))
+The Android phone can now be benchmarked using the models and scenario scripts created from above. There are some setups that has to be done on the Android device being tested before. ([Demo video](https://youtu.be/99ocM8-5nS0))
 
 ### (A) Setup
 1. Scenario creation
