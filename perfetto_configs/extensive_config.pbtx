@@ -1,0 +1,389 @@
+buffers {
+  size_kb: 262144
+  fill_policy: RING_BUFFER
+}
+
+buffers {
+  size_kb: 262144
+  fill_policy: RING_BUFFER
+}
+
+buffers {
+  size_kb: 1048576
+  fill_policy: RING_BUFFER
+}
+
+data_sources {
+  config {
+    name: "android.heapprofd"
+    heapprofd_config {
+      sampling_interval_bytes: 4096
+      continuous_dump_config {
+        dump_phase_ms: 10000
+        dump_interval_ms: 60000
+      }
+    }
+  }
+}
+
+data_sources {
+  config {
+    name: "android.java_hprof"
+    java_hprof_config {
+      continuous_dump_config {
+        dump_phase_ms: 20000
+        dump_interval_ms: 120000
+      }
+    }
+  }
+}
+
+data_sources {
+  config {
+    name: "android.log"
+    android_log_config {
+      log_ids: LID_DEFAULT
+      log_ids: LID_SYSTEM
+      log_ids: LID_CRASH
+      log_ids: LID_KERNEL
+      min_prio: PRIO_VERBOSE
+    }
+  }
+}
+
+data_sources: {
+    config {
+        name: "android.network_packets"
+        network_packet_trace_config {
+            poll_ms: 250
+        }
+    }
+}
+
+data_sources {
+  config {
+    name: "android.packages_list"
+  }
+}
+
+data_sources {
+  config {
+    name: "android.polled_state"
+  }
+}
+
+data_sources {
+  config {
+    name: "android.surfaceflinger.frame"
+  }
+}
+
+data_sources {
+  config {
+    name: "android.surfaceflinger.frametimeline"
+  }
+}
+
+data_sources: {
+  config {
+    name: "android.surfaceflinger.frame"
+  }
+}
+
+data_sources: {
+  config {
+    name: "android.surfaceflinger.transactions"
+  }
+}
+
+data_sources {
+  config {
+    name: "android.system_property"
+    android_system_property_config {
+      poll_ms: 500
+      property_name: "debug.tracing.*"
+    }
+  }
+}
+
+data_sources {
+  config {
+    name: "android.sys_stats"
+    target_buffer: 1
+    sys_stats_config {
+      meminfo_period_ms: 1000
+      vmstat_period_ms: 1000
+    }
+  }
+}
+
+data_sources {
+  config {
+    name: "linux.ftrace"
+    target_buffer: 2
+    ftrace_config {
+      symbolize_ksyms: true
+      atrace_categories: "gfx"
+      atrace_categories: "res"
+      atrace_categories: "workq"
+      atrace_categories: "bionic"
+      atrace_categories: "rs"
+      atrace_categories: "webview"
+      atrace_categories: "memory"
+      atrace_categories: "idle"
+      atrace_categories: "dalvik"
+      atrace_categories: "freq"
+      atrace_categories: "am"
+      atrace_categories: "sync"
+      atrace_categories: "network"
+      atrace_categories: "binder_driver"
+      atrace_categories: "input"
+      atrace_categories: "disk"
+      atrace_categories: "view"
+      atrace_categories: "sched"
+      atrace_categories: "audio"
+      atrace_categories: "video"
+      atrace_categories: "wm"
+      atrace_categories: "am"
+      atrace_categories: "sm"
+      atrace_categories: "pm"
+      atrace_categories: "ss"
+      atrace_categories: "database"
+      atrace_categories: "adb"
+      atrace_categories: "aidl"
+      atrace_categories: "nnapi"
+      atrace_categories: "rro"
+      atrace_categories: "pdx"
+      atrace_categories: "ion"
+      atrace_categories: "memreclaim"
+      
+      ftrace_events: "filemap/mm_filemap_add_to_page_cache"
+      ftrace_events: "filemap/mm_filemap_delete_from_page_cache"
+      ftrace_events: "power/suspend_resume"
+      ftrace_events: "sched/sched_switch"
+      ftrace_events: "sched/sched_wakeup"
+      ftrace_events: "sched/sched_wakeup_new"
+      ftrace_events: "sched/sched_waking"
+      ftrace_events: "sched/sched_process_exec"
+      ftrace_events: "sched/sched_process_exit"
+      ftrace_events: "sched/sched_process_fork"
+      ftrace_events: "sched/sched_process_free"
+      ftrace_events: "sched/sched_process_hang"
+      ftrace_events: "sched/sched_process_wait"
+      ftrace_events: "power/cpu_frequency"
+      ftrace_events: "power/cpu_idle"
+      ftrace_events: "power/gpu_frequency"
+      ftrace_events: "gpu_mem/gpu_mem_total"
+      ftrace_events: "power/gpu_work_period"
+
+      ftrace_events: "raw_syscalls/sys_enter"
+      ftrace_events: "raw_syscalls/sys_exit"
+
+      ftrace_events: "power/clock_enable"
+      ftrace_events: "power/clock_disable"
+      ftrace_events: "power/clock_set_rate"
+
+      ftrace_events: "mm_event/mm_event_record"
+      ftrace_events: "kmem/rss_stat"
+      ftrace_events: "ion/ion_stat"
+      ftrace_events: "dmabuf_heap/dma_heap_stat"
+      ftrace_events: "kmem/ion_heap_grow"
+      ftrace_events: "kmem/ion_heap_shrink"
+      ftrace_events: "task/task_newtask"
+      ftrace_events: "task/task_rename"
+
+      ftrace_events: "lowmemorykiller/lowmemory_kill"
+      ftrace_events: "oom/mark_victim"
+      ftrace_events: "oom/oom_score_adj_update"
+      
+      ftrace_events: "block/block_bio_backmerge"
+      ftrace_events: "block/block_bio_bounce"
+      ftrace_events: "block/block_bio_complete"
+      ftrace_events: "block/block_bio_frontmerge"
+      ftrace_events: "block/block_bio_queue"
+      ftrace_events: "block/block_bio_remap"
+      ftrace_events: "block/block_dirty_buffer"
+      ftrace_events: "block/block_getrq"
+      ftrace_events: "block/block_plug"
+      ftrace_events: "block/block_rq_issue"
+      ftrace_events: "block/block_rq_abort"
+      ftrace_events: "block/block_rq_complete"
+      ftrace_events: "block/block_rq_insert"
+      ftrace_events: "block/block_rq_remap"
+      ftrace_events: "block/block_rq_requeue"
+      ftrace_events: "block/block_sleeprq"
+      ftrace_events: "block/block_split"
+      ftrace_events: "block/block_touch_buffer"
+      ftrace_events: "block/block_unplug"
+
+      ftrace_events: "f2fs/f2fs_do_submit_bio"
+      ftrace_events: "f2fs/f2fs_submit_write_page"
+      ftrace_events: "f2fs/f2fs_get_data_block"
+      ftrace_events: "f2fs/f2fs_sync_file_enter"
+      ftrace_events: "f2fs/f2fs_sync_file_exit"
+
+      atrace_apps: "*"
+      buffer_size_kb: 131072
+      drain_period_ms: 250
+    }
+  }
+}
+
+data_sources {
+  config {
+    name: "linux.inode_file_map"
+  }
+}
+
+data_sources {
+  config {
+    name: "linux.perf"
+    perf_event_config {
+      timebase {
+        frequency: 80
+      }
+      callstack_sampling {
+        kernel_frames: true
+      }
+    }
+  }
+}
+
+data_sources {
+  config {
+    name: "android.gpu.memory"
+    target_buffer: 1
+  }
+}
+
+data_sources: {
+  config {
+    name: "gpu.counters"
+    gpu_counter_config {
+      counter_period_ns: 1000000
+      instrumented_sampling: true
+      fix_gpu_clock: true
+    }
+  }
+}
+
+data_sources {
+  config {
+    name: "linux.process_stats"
+    process_stats_config {
+      proc_stats_poll_ms: 1000
+      record_thread_names: true
+      scan_all_processes_on_start: true
+    }
+  }
+}
+
+data_sources: {
+  config {
+    name: "linux.sys_stats"
+    sys_stats_config {
+      meminfo_period_ms: 1000
+      vmstat_period_ms: 1000
+      stat_period_ms: 1000
+      cpufreq_period_ms: 1000
+      diskstat_period_ms: 1000
+      psi_period_ms: 1000
+      cpuidle_period_ms: 1000
+      meminfo_counters: MEMINFO_MEM_TOTAL
+      meminfo_counters: MEMINFO_MEM_FREE
+      meminfo_counters: MEMINFO_MEM_AVAILABLE
+      meminfo_counters: MEMINFO_BUFFERS
+      meminfo_counters: MEMINFO_CACHED
+      meminfo_counters: MEMINFO_SWAP_CACHED
+      meminfo_counters: MEMINFO_ACTIVE
+      meminfo_counters: MEMINFO_INACTIVE
+      meminfo_counters: MEMINFO_ACTIVE_ANON
+      meminfo_counters: MEMINFO_INACTIVE_ANON
+      meminfo_counters: MEMINFO_ACTIVE_FILE
+      meminfo_counters: MEMINFO_INACTIVE_FILE
+      meminfo_counters: MEMINFO_UNEVICTABLE
+      meminfo_counters: MEMINFO_MLOCKED
+      meminfo_counters: MEMINFO_SWAP_TOTAL
+      meminfo_counters: MEMINFO_SWAP_FREE
+      meminfo_counters: MEMINFO_DIRTY
+      meminfo_counters: MEMINFO_WRITEBACK
+      meminfo_counters: MEMINFO_ANON_PAGES
+      meminfo_counters: MEMINFO_MAPPED
+      meminfo_counters: MEMINFO_SHMEM
+      vmstat_counters: VMSTAT_NR_FREE_PAGES
+      vmstat_counters: VMSTAT_NR_ALLOC_BATCH
+      vmstat_counters: VMSTAT_NR_INACTIVE_ANON
+      vmstat_counters: VMSTAT_NR_ACTIVE_ANON
+      vmstat_counters: VMSTAT_NR_INACTIVE_FILE
+      vmstat_counters: VMSTAT_NR_ACTIVE_FILE
+      vmstat_counters: VMSTAT_NR_UNEVICTABLE
+      vmstat_counters: VMSTAT_NR_MLOCK
+      vmstat_counters: VMSTAT_NR_ANON_PAGES
+      vmstat_counters: VMSTAT_NR_MAPPED
+      vmstat_counters: VMSTAT_NR_FILE_PAGES
+      vmstat_counters: VMSTAT_NR_DIRTY
+      vmstat_counters: VMSTAT_NR_WRITEBACK
+      vmstat_counters: VMSTAT_NR_SLAB_RECLAIMABLE
+      vmstat_counters: VMSTAT_NR_SLAB_UNRECLAIMABLE
+      vmstat_counters: VMSTAT_NR_PAGE_TABLE_PAGES
+      vmstat_counters: VMSTAT_NR_KERNEL_STACK
+      vmstat_counters: VMSTAT_NR_OVERHEAD
+      stat_counters: STAT_CPU_TIMES
+      stat_counters: STAT_IRQ_COUNTS
+      stat_counters: STAT_SOFTIRQ_COUNTS
+      stat_counters: STAT_FORK_COUNT
+    }
+  }
+}
+
+# data_sources {
+#   config {
+#     name: "linux.system_info"
+#   }
+# }
+
+data_sources {
+  config {
+    name: "track_event"
+    track_event_config {
+      enabled_categories: "accessibility"
+      enabled_categories: "android.ui.jank"
+      enabled_categories: "android_webview"
+      enabled_categories: "audio"
+      enabled_categories: "blink"
+      enabled_categories: "browser"
+      enabled_categories: "cc"
+      enabled_categories: "gpu"
+      enabled_categories: "input"
+      enabled_categories: "navigation"
+      enabled_categories: "net"
+      enabled_categories: "v8"
+      enabled_categories: "viz"
+      disabled_categories: "debug"
+      disabled_categories: "test"
+    }
+  }
+}
+
+data_sources: {
+  config {
+    name: "vulkan.memory_tracker"
+    vulkan_memory_config {
+      track_driver_memory_usage: true
+      track_device_memory_usage: true
+    }
+  }
+}
+
+write_into_file: true
+file_write_period_ms: 2500
+
+flush_period_ms: 10000
+
+builtin_data_sources {
+  disable_clock_snapshotting: false
+  disable_trace_config: false
+  disable_system_info: false
+  disable_service_events: false
+  snapshot_interval_ms: 10000
+}

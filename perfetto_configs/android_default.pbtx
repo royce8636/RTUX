@@ -1,0 +1,147 @@
+buffers {
+  size_kb: 32768
+  fill_policy: RING_BUFFER
+}
+buffers {
+  size_kb: 32768
+  fill_policy: RING_BUFFER
+}
+data_sources {
+  config {
+    name: "linux.ftrace"
+    target_buffer: 0
+    ftrace_config {
+      symbolize_ksyms: true
+      atrace_categories: "res"
+      atrace_categories: "workq"
+      atrace_categories: "webview"
+      atrace_categories: "memory"
+      atrace_categories: "idle"
+      atrace_categories: "dalvik"
+      atrace_categories: "freq"
+      atrace_categories: "am"
+      atrace_categories: "sync"
+      atrace_categories: "network"
+      atrace_categories: "binder_driver"
+      atrace_categories: "input"
+      atrace_categories: "hal"
+      atrace_categories: "disk"
+      atrace_categories: "view"
+      atrace_categories: "sched"
+      atrace_categories: "wm"
+      atrace_categories: "thermal"
+      atrace_categories: "gfx"
+      atrace_categories: "power"
+      atrace_categories: "camera"
+      atrace_categories: "aidl"
+      atrace_categories: "memreclaim"
+      atrace_apps: "*"
+      compact_sched {
+        enabled: true
+      }
+      #buffer_size_kb: 8192
+      #drain_period_ms: 1000
+      buffer_size_kb: 16384
+      drain_period_ms: 250
+    }
+  }
+}
+data_sources {
+  config {
+    name: "android.gpu.memory"
+    target_buffer: 0
+  }
+}
+data_sources {
+  config {
+    name: "linux.process_stats"
+    target_buffer: 1
+    process_stats_config {
+      proc_stats_poll_ms: 60000
+    }
+  }
+}
+
+#data_sources {
+#  config {
+#    name: "android.power"
+#    target_buffer: 1
+#    android_power_config {
+#      battery_poll_ms: 1000
+#      collect_power_rails: true
+#      battery_counters: BATTERY_COUNTER_CAPACITY_PERCENT
+#      battery_counters: BATTERY_COUNTER_CHARGE
+#      battery_counters: BATTERY_COUNTER_CURRENT
+#    }
+#  }
+#}
+
+data_sources {
+  config {
+    name: "android.sys_stats"
+    target_buffer: 1
+    sys_stats_config {
+      vmstat_period_ms: 1000
+    }
+  }
+}
+
+data_sources: {
+    config {
+        name: "linux.sys_stats"
+        sys_stats_config {
+            meminfo_period_ms: 1000
+            meminfo_counters: MEMINFO_MEM_TOTAL
+            meminfo_counters: MEMINFO_MEM_FREE
+            meminfo_counters: MEMINFO_MEM_AVAILABLE
+
+            vmstat_period_ms: 1000
+            vmstat_counters: VMSTAT_NR_FREE_PAGES
+            vmstat_counters: VMSTAT_NR_ALLOC_BATCH
+            vmstat_counters: VMSTAT_NR_INACTIVE_ANON
+            vmstat_counters: VMSTAT_NR_ACTIVE_ANON
+
+            stat_period_ms: 1000
+            stat_counters: STAT_CPU_TIMES
+            stat_counters: STAT_FORK_COUNT
+        }
+    }
+}
+
+data_sources {
+  config {
+    name: "android.surfaceflinger.frametimeline"
+  }
+}
+data_sources {
+  config {
+    name: "android.hardware.camera"
+    target_buffer: 1
+  }
+}
+data_sources {
+  config {
+    name: "org.chromium.trace_event"
+    chrome_config {
+      trace_config: "{\"record_mode\":\"record-continuously\",\"included_categories\":[\"*\"]}"
+    }
+  }
+}
+data_sources {
+  config {
+    name: "org.chromium.trace_metadata"
+    chrome_config {
+      trace_config: "{\"record_mode\":\"record-continuously\",\"included_categories\":[\"*\"]}"
+    }
+  }
+}
+enable_extra_guardrails: false
+
+write_into_file: true
+file_write_period_ms: 1000
+flush_period_ms: 1000
+notify_traceur: true
+
+#statsd_logging: STATSD_LOGGING_DISABLED0
+trace_uuid_msb: 771211190659565185
+trace_uuid_lsb: -7906795730165107342

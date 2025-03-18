@@ -1,0 +1,131 @@
+buffers {
+  size_kb: 1048576
+  fill_policy: RING_BUFFER
+}
+
+buffers {
+  size_kb: 262144
+  fill_policy: RING_BUFFER
+}
+
+data_sources {
+  config {
+    name: "linux.process_stats"
+    target_buffer: 1
+    process_stats_config {
+      scan_all_processes_on_start: true
+    }
+  }
+}
+
+# data_sources {
+#   config {
+#     target_buffer: 1
+#     name: "android.log"
+#     android_log_config {
+#       log_ids: LID_DEFAULT
+#       log_ids: LID_SYSTEM
+#       log_ids: LID_CRASH
+#       log_ids: LID_KERNEL
+#       min_prio: PRIO_VERBOSE
+#     }
+#   }
+# }
+
+data_sources {
+  config {
+    name: "linux.ftrace"
+    target_buffer: 0
+    ftrace_config {
+      symbolize_ksyms: true
+
+      atrace_categories: "wm"
+      atrace_categories: "am"
+      atrace_categories: "sm"
+      atrace_categories: "pm"
+      atrace_categories: "ss"
+      atrace_categories: "memreclaim"
+
+      ftrace_events: "lowmemorykiller/lowmemory_kill"
+      ftrace_events: "oom/mark_victim"
+      ftrace_events: "oom/oom_score_adj_update"
+
+      ftrace_events: "sched/sched_switch"
+      ftrace_events: "sched/sched_wakeup"
+      ftrace_events: "sched/sched_wakeup_new"
+      ftrace_events: "sched/sched_waking"
+      ftrace_events: "sched/sched_process_exec"
+      ftrace_events: "sched/sched_process_exit"
+      ftrace_events: "sched/sched_process_fork"
+      ftrace_events: "sched/sched_process_free"
+      ftrace_events: "sched/sched_process_hang" 
+      ftrace_events: "sched/sched_process_wait"
+
+      ftrace_events: "raw_syscalls/sys_enter"
+      ftrace_events: "raw_syscalls/sys_exit"
+
+      ftrace_events: "block/block_bio_backmerge"
+      ftrace_events: "block/block_bio_bounce"
+      ftrace_events: "block/block_bio_complete"
+      ftrace_events: "block/block_bio_frontmerge"
+      ftrace_events: "block/block_bio_queue"
+      ftrace_events: "block/block_bio_remap"
+      ftrace_events: "block/block_dirty_buffer"
+      ftrace_events: "block/block_getrq"
+      ftrace_events: "block/block_plug"
+      ftrace_events: "block/block_rq_issue"
+      ftrace_events: "block/block_rq_abort"
+      ftrace_events: "block/block_rq_complete"
+      ftrace_events: "block/block_rq_insert"
+      ftrace_events: "block/block_rq_remap"
+      ftrace_events: "block/block_rq_requeue"
+      ftrace_events: "block/block_sleeprq"
+      ftrace_events: "block/block_split"
+      ftrace_events: "block/block_touch_buffer"
+      ftrace_events: "block/block_unplug"
+
+      atrace_apps: "*"
+      # atrace_apps: "lmkd"
+
+      buffer_size_kb: 131072
+      drain_period_ms: 250
+    }
+  }
+}
+
+data_sources: {
+  config {
+    name: "linux.sys_stats"
+    target_buffer: 1
+    sys_stats_config {
+      meminfo_period_ms: 1000
+      psi_period_ms: 1000
+      meminfo_counters: MEMINFO_MEM_TOTAL
+      meminfo_counters: MEMINFO_MEM_FREE
+      meminfo_counters: MEMINFO_MEM_AVAILABLE
+      meminfo_counters: MEMINFO_BUFFERS
+      meminfo_counters: MEMINFO_CACHED
+      meminfo_counters: MEMINFO_SWAP_CACHED
+      meminfo_counters: MEMINFO_ACTIVE
+      meminfo_counters: MEMINFO_INACTIVE
+      meminfo_counters: MEMINFO_ACTIVE_ANON
+      meminfo_counters: MEMINFO_INACTIVE_ANON
+      meminfo_counters: MEMINFO_ACTIVE_FILE
+      meminfo_counters: MEMINFO_INACTIVE_FILE
+      meminfo_counters: MEMINFO_UNEVICTABLE
+      meminfo_counters: MEMINFO_MLOCKED
+      meminfo_counters: MEMINFO_SWAP_TOTAL
+      meminfo_counters: MEMINFO_SWAP_FREE
+      meminfo_counters: MEMINFO_DIRTY
+      meminfo_counters: MEMINFO_WRITEBACK
+      meminfo_counters: MEMINFO_ANON_PAGES
+      meminfo_counters: MEMINFO_MAPPED
+      meminfo_counters: MEMINFO_SHMEM
+    }
+  }
+}
+
+write_into_file: true
+file_write_period_ms: 2500
+
+flush_period_ms: 10000
