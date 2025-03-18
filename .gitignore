@@ -1,5 +1,3 @@
-*.apk
-TensorRT/
 *.jpeg
 *.jpg
 *.png

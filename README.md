@@ -5,6 +5,8 @@
 ## Abstract
 Android, with its vast global adoption and diverse hardware ecosystem, poses unique challenges for performance benchmarking, particularly from a user-centric perspective. Traditional benchmarks often fail to capture the intricacies of user-perceived performance, relying on component-level metrics or synthetic workloads that do not reflect real-world usage. This paper proposes Real-Time User-Experience, RTUX, a novel benchmarking tool designed to measure Android system performance as perceived by users. RTUX employs external camera-based GUI state recognition and scenario-based testing to evaluate app load-times and in-app transitions under diverse conditions. Using CNN models and a unique system structure, RTUX reliably replays human-like interactions, enabling repeatable and robust performance assessments. Through experiments with 100 scenario repetitions involving popular Android apps, we uncover some system bottlenecks, such as suboptimal writeback configurations and I/O scheduler inefficiencies. The tool demonstrates how targeted optimizations can yield tangible improvements in user experience.
 
+**Note: For quick start, download the models from [zenodo](www.zenodo.com), then jump to [UXB](#user-experience-benchmark-uxb). TRTModel might need to be recompiled based on the GPU.**
+
 ## Hardware Requirements
 
 ### Testing Suite:
@@ -18,7 +20,6 @@ Android, with its vast global adoption and diverse hardware ecosystem, poses uni
 - Large enough SSD space for traces (>500GB for 100 iterations if saving all photos)
 
 ---
-For quick start, download the models from [zenodo](www.zenodo.com), then jump to [Execution](#b-execution). TRTModel might need to be recompiled based on the GPU.
 
 ## State Separator (SS)
 RTUX uses CNN models to detect the stages of the app on the phone. In order to create the CNN models, three steps are required: (A) State Separation (B) Dataset Collection (C) Model Training 
@@ -26,31 +27,31 @@ RTUX uses CNN models to detect the stages of the app on the phone. In order to c
 ### (A) State Separation
 This step is where the user chooses the app that will be tested, separate the app into multiple different stages (e.g., menu → loading → game). In below scripts, `<device serial>` is serial number of the device that can be found on `adb shell list`. This field can be omitted if only one android device is connected to the controlling computer. Please follow the videos if unsure.
 
-1. Find the activity of the app that is to be tested ([video](assets/SS-A1-4.mp4))
+1. Find the activity of the app that is to be tested ([Demo video](https://youtu.be/sV2wAX-GAkM))
     - Activity is the main launch point of the app (e.g.,  `com.fingersoft.hillclimb/com.fingersoft.game.MainActivity`)
     - `adb shell am stack list` lists the packages running applications. Some apps will have MainActivity listed from this, but some might not.
     - If activity couldn't be found using above command, use `adb shell dumpsys package | grep <package> | grep Activity`, which will list the available activities. One with MainActivity is most likely the main screen that will be launched. Some apps may have different startup activities, so check for launchable ones.
-2. ` ./prep/record_touch_vid.sh <app name> <activity> <device serial>` ([video](assets/SS-A1-4.mp4))
+2. ` ./prep/record_touch_vid.sh <app name> <activity> <device serial>` ([Demo video](https://youtu.be/sV2wAX-GAkM))
     - App name: Name of the app that will be saved to the `dataset/` directory
     - Activity: Activity of the app that is to be tested (Found on step 1)
 3.  Once `record_touch_vid.sh` prints `Press Enter to stop recording and exit...` start using the app on the phone (physical touch input)
-4. After all desired input has been made, press enter to stop the script ([video](assets/SS-A1-4.mp4))
+4. After all desired input has been made, press enter to stop the script ([Demo video](https://youtu.be/sV2wAX-GAkM))
     - This would have created a folder in `/dataset/<app name>` with three files
-5. `python3 prep/state_separator.py -g <game> -d <device serial>` ([video](assets/SS-A5.mp4))
+5. `python3 prep/state_separator.py -g <game> -d <device serial>` ([Demo video](https://youtu.be/iRFNhI32NYI))
     - GUI will open with the video (if multiple videos are in the directory, the user has to manually give the video). The user can then use this to mark each 'states'. The states are start and end of each stage. Starting from 0, press the number keys to mark the start and end of each 'state'. 
     - This creates `screen/` for videos of each stage, `script/` for input script of each stage, `image/` of all frames, and a `<app name>_queue.txt` scenario file
 
 ### (B) Dataset Collection
 In this step, RTUX automatically collects the photos of the app by changing the brightness and position of the frames. It takes `(# of desired photo / FPS)` seconds to complete. In this step, camera connection to the controlling computer, and camera index (e.g., `/dev/video0`, 0 is the index) is required. Make sure the entire screen of the phone is visible inside the camera's field of view.
 
-1. `python3 rtux_cnn/calibrator.py -o <out file name> -c <camera index>` ([video](assets/SS-B1.mp4))
+1. `python3 rtux_cnn/calibrator.py -o <out file name> -c <camera index>` ([Demo video](https://youtu.be/R92eGvli7UE))
     - Ensure that the phone is within the camera's frame 
     - This automatically finds the phone screen, and calibrates the camera settings, and outputs the calibrated settings to a `<out file name>`
 2. Install VLCRtux App
     - This app is required to replay the separated videos for dataset collection
-    - Pre-built app is located in [`/VLCRtux/app-debug.apk`](/VLCRtux/app-debug.apk), and can be installed with `adb install /VLCRtux/app-debug.apk`
+    - Pre-built app is located in [`/VLCRtux/VLCRtux.apk`](/VLCRtux/app-debug.apk), and can be installed with `adb install /VLCRtux/VLCRtux.apk`
     - Once installed, open the app, and allow the access to files
-3. Repeated image taking for data collection ([video](assets/SS-B3.mp4))
+3. Repeated image taking for data collection ([Demo video](https://youtu.be/LYC1i8iTXhA))
 ```
 python3 prep/dataset_collection.py -g <game> -C <calibration file>
                                    [-r ] # Toggle resume (will resume from existing images and if not given, replace existing)
@@ -71,7 +72,7 @@ The process of model training has to be done for each state in each app. Use `tr
 
 
 ## User-Experience Benchmark (UXB)
-The Android phone can now be benchmarked using the models and scenario scripts created from above. There are some setups that has to be done on the android device being tested before. ([video](assets/UXB-BC.mp4))
+The Android phone can now be benchmarked using the models and scenario scripts created from above. There are some setups that has to be done on the android device being tested before. ([Demo video](https://youtu.be/99ocM8-5nS0))
 
 ### (A) Setup
 1. Scenario creation
@@ -87,6 +88,9 @@ The Android phone can now be benchmarked using the models and scenario scripts c
 
 3. Build replayer
     - `clang --target=aarch64-linux-android34 -fPIE -fPIC -o mysendevent prep/replay.c -pie`
+
+4. Calibrate the cameras again in case of lighting or position changes
+    - `python3 rtux_cnn/calibrator.py -o <out file name> -c <camera index>` ([Demo video](https://youtu.be/R92eGvli7UE))
 
 ### (B) Execution
 ```
@@ -113,7 +117,7 @@ RTUX CSA is built on top of Perfetto v42.x with some modifications to show RTUX 
 **Note:** Please refer to the [Perfetto docs](https://perfetto.dev/docs/contributing/build-instructions) if more detailed instructions are needed
 
 ### (A) Setup
-1. The log data has to be parsed for perfetto processor to understand ([video](assets/CSA-A1.mp4))
+1. The log data has to be parsed for perfetto processor to understand ([Demo video](https://youtu.be/R92eGvli7UE))
     - `python3 rtux_cnn/prepare_data_perfetto.py -d <log folder directory>` 
     - This creates `all_summary_hashed.json` file for each index in given log folder directory
 2. From the perfetto folder, build Perfetto UI and trace processor (refer to perfetto docs if unsuccessful)
@@ -124,7 +128,7 @@ RTUX CSA is built on top of Perfetto v42.x with some modifications to show RTUX 
     - `ln -s <RTUX directory>/logs/ <perfetto directory>/ui/src/assets`
 
 ### (B) Execution
-These are done in perfetto folder ([video](assets/CSA-B.mp4))
+These are done in perfetto folder ([Demo video](https://youtu.be/BZCtQS2Dxmc))
 1. `/out/android/trace_processor_shell --httpd -http-port=9201 /<RTUX directory>/logs/<desired log>/<index number>/perfetto_trace_<index number>`
     - This will load the trace to port 9201
 2. On a new terminal, run `ui/run-dev-server --rtux-path <path to RTUX folder>`
