@@ -8,7 +8,9 @@
     - Make sure that the `dataset/` directory holds 3 folders (clashofclans, hillclimb, minecraft) and 2 files (multiqueue.txt, thresholds.json)
 
 ## Setup
-### Both setup is not needed if using Android SDK level 34 or GPU with compute capability of 8.9 (RTX4090)
+
+**Before proceeding, please make sure that USB Debugging is enabled in Developer Options in the phone being tested. After it has been enabled and connected to the computer, using `adb devices`, check if your phone has been connected properly.**
+
 ### (A) Script Setup
 **Note: Script setup is not needed if using SDK level 34**
 1. Build `sync_linux.c`
@@ -23,6 +25,11 @@
 1. Convert each given models into TRT
     - `python3 prep/trt_convert.py -d dataset/<game name>/models/<game name>_<index>`
     - This has to be done for each index (e.g., 0, 1, 2, 3, 4) for each game (i.e., clashofclans, hillclimb, minecraft)
+
+### (C) VLCRtux Setup
+1. VLCRtux app has to be installed on the Android device being tested
+    - `adb install /VLCRtux/VLCRtux.apk`
+    - If app does not work or open due to different SDK level, please recompile the Android app after changing the compileSdk on `VLCRtux/app/build.gradle`
 
 ## Execution
 1. Calibrate the cameras
