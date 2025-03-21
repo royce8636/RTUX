@@ -20,6 +20,8 @@
 3. Build `replay.c`
     - `clang --target=aarch64-linux-android34 -fPIE -fPIC -o mysendevent prep/replay.c -pie`
 
+**Replace android34 with corresponding SDK version, which can be found by doing `adb shell getprop ro.build.version.sdk` like `android[sdk]`**
+
 ### (B) Model Setup
 **Note: Model setup is not needed if using GPU with compute capability of 8.9 (e.g., RTX 4090)**
 1. Convert each given models into TRT
@@ -31,6 +33,13 @@
     - `adb install /VLCRtux/VLCRtux.apk`
     - If app does not work or open due to different SDK level, please recompile the Android app after changing the compileSdk on `VLCRtux/app/build.gradle`
 
+### (D) App Setup
+The Quickstart uses multiqueue.txt scenario, which assumes that games **Hill Climb Racing, Clash of Clans, and Minecraft Trial** has all been installed on the device and is setup, so that once it is opened, it can be played immediately (login, initial setup and etc should all be done)
+
+- App versions:
+    - Hill Climb Racing: 1.65.0
+    - Clash of Clans: 17.18.13
+    - Minecraft Trial: 1.21.62.01
 ## Execution
 1. Calibrate the cameras
     - `python3 rtux_cnn/calibrator.py -o hdk.txt -c 0`
