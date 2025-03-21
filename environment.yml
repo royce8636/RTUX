@@ -1,4 +1,4 @@
-name: new
+name: rtux
 channels:
   - nvidia
   - anaconda
@@ -16,6 +16,7 @@ dependencies:
   - anyio=3.5.0=py310h06a4308_0
   - appdirs=1.4.4=pyhd3eb1b0_0
   - argon2-cffi=20.1.0=py310h7f8727e_1
+  - defaults/linux-64::bottleneck==1.3.5=py310ha9d4c09_0
   - asttokens=2.0.5=pyhd3eb1b0_0
   - astunparse=1.6.3=py_0
   - async-timeout=4.0.2=py310h06a4308_0
@@ -24,12 +25,9 @@ dependencies:
   - babel=2.11.0=py310h06a4308_0
   - backcall=0.2.0=pyhd3eb1b0_0
   - bash=5.1.16=hd863ed2_0
-  - beautifulsoup4=4.12.2=py310h06a4308_0
   - binutils_impl_linux-64=2.40=hf600244_0
-  - bleach=4.1.0=pyhd3eb1b0_0
   - blinker=1.4=py310h06a4308_0
   - blosc=1.21.3=h6a678d5_0
-  - bottleneck=1.3.5=py310ha9d4c09_0
   - brotli=1.0.9=h5eee18b_7
   - brotli-bin=1.0.9=h5eee18b_7
   - brotlipy=0.7.0=py310h7f8727e_1002
@@ -45,22 +43,16 @@ dependencies:
   - charls=2.2.0=h2531618_0
   - charset-normalizer=2.0.4=pyhd3eb1b0_0
   - click=8.0.4=py310h06a4308_0
-  - cloudpickle=2.2.1=py310h06a4308_0
+  - defaults/linux-64::cloudpickle==2.2.1=py310h06a4308_0
   - comm=0.1.2=py310h06a4308_0
   - contourpy=1.0.5=py310hdb19cb5_0
-  - cryptography=39.0.1=py310h9ce1e76_0
-  - cuda-cudart=12.4.127=0
-  - cuda-nvcc=12.4.99=0
+  - defaults/linux-64::h5py==3.7.0=py310he06866b_0
+  - cuda-cudart=11.8.89=0
+  - cuda-nvcc=11.8.89=0
   - cuda-version=11.8=hcce14f8_2
   - cudatoolkit=11.8.0=h6a678d5_0
   - cudnn=8.9.2.26=cuda11_0
-  - cycler=0.11.0=pyhd3eb1b0_0
-  - cython=3.0.0=py310h5eee18b_0
-  - cytoolz=0.12.2=py310h5eee18b_0
-  - dask-core=2023.6.0=py310h06a4308_0
   - dbus=1.13.18=hb2f20db_0
-  - debugpy=1.5.1=py310h295c915_0
-  - defusedxml=0.7.1=pyhd3eb1b0_0
   - entrypoints=0.4=py310h06a4308_0
   - executing=0.8.3=pyhd3eb1b0_0
   - expat=2.4.9=h6a678d5_0
@@ -86,32 +78,14 @@ dependencies:
   - icu=58.2=he6710b0_3
   - idna=3.4=py310h06a4308_0
   - imagecodecs=2021.8.26=py310h46e8fbd_2
-  - imagehash=4.3.1=py310h06a4308_0
   - importlib-metadata=7.0.1=py310h06a4308_0
   - intel-openmp=2021.4.0=h06a4308_3561
-  - ipykernel=6.19.2=py310h2f386ee_0
-  - ipython=8.8.0=py310h06a4308_0
-  - ipython_genutils=0.2.0=pyhd3eb1b0_1
-  - ipywidgets=8.0.4=py310h06a4308_0
   - jedi=0.18.1=py310h06a4308_1
   - jinja2=3.1.2=py310h06a4308_0
   - joblib=1.3.0=pyhd8ed1ab_1
   - jpeg=9e=h5eee18b_1
   - json5=0.9.6=pyhd3eb1b0_0
   - jsonschema=4.17.3=py310h06a4308_0
-  - jupyter=1.0.0=py310h06a4308_8
-  - jupyter_client=7.4.8=py310h06a4308_0
-  - jupyter_console=6.6.3=py310h06a4308_0
-  - jupyter_core=5.1.1=py310h06a4308_0
-  - jupyter_events=0.6.3=py310h06a4308_0
-  - jupyter_server=1.23.4=py310h06a4308_0
-  - jupyter_server_fileid=0.9.0=py310h06a4308_0
-  - jupyter_server_ydoc=0.8.0=py310h06a4308_1
-  - jupyter_ydoc=0.2.4=py310h06a4308_0
-  - jupyterlab=3.6.7=py310h06a4308_0
-  - jupyterlab_pygments=0.1.2=py_0
-  - jupyterlab_server=2.22.0=py310h06a4308_0
-  - jupyterlab_widgets=3.0.5=py310h06a4308_0
   - jxrlib=1.1=h7b6447c_2
   - keras-preprocessing=1.1.2=pyhd3eb1b0_0
   - kernel-headers_linux-64=2.6.32=he073ed8_15
@@ -126,8 +100,6 @@ dependencies:
   - lz4-c=1.9.4=h6a678d5_0
   - markdown=3.4.1=py310h06a4308_0
   - markupsafe=2.1.1=py310h7f8727e_0
-  - matplotlib-base=3.7.1=py310h1128e8f_1
-  - matplotlib-inline=0.1.6=py310h06a4308_0
   - mistune=0.8.4=py310h7f8727e_1000
   - mkl=2021.4.0=h06a4308_640
   - mkl-service=2.4.0=py310h7f8727e_0
@@ -139,6 +111,7 @@ dependencies:
   - nbclient=0.5.13=py310h06a4308_0
   - nbconvert=6.5.4=py310h06a4308_0
   - nbformat=5.7.0=py310h06a4308_0
+  - defaults/linux-64::numexpr==2.8.4=py310h757a811_1
   - ncurses=6.4=hcb278e6_0
   - nest-asyncio=1.5.6=py310h06a4308_0
   - networkx=3.1=py310h06a4308_0
@@ -146,8 +119,6 @@ dependencies:
   - notebook-shim=0.2.2=py310h06a4308_0
   - nspr=4.35=h6a678d5_0
   - nss=3.74=h0370c37_0
-  - numpy-base=1.23.5=py310h375b286_0
-  - nvtop=3.0.2=hbcb9423_0
   - oauthlib=3.2.2=py310h06a4308_0
   - openjdk=11.0.13=h87a67e3_0
   - openjpeg=2.4.0=h3ad879b_0
@@ -177,7 +148,6 @@ dependencies:
   - pyjwt=2.4.0=py310h06a4308_0
   - pyopenssl=23.0.0=py310h06a4308_0
   - pyparsing=3.0.9=py310h06a4308_0
-  - pyqt=5.15.7=py310h6a678d5_1
   - pyrsistent=0.18.0=py310h7f8727e_0
   - pysocks=1.7.1=py310h06a4308_0
   - python=3.10.10=h7a1cb2a_2
@@ -198,17 +168,14 @@ dependencies:
   - re2=2022.04.01=h295c915_0
   - readline=8.2=h5eee18b_0
   - requests=2.28.1=py310h06a4308_1
+  - defaults/noarch::google-auth==2.6.0=pyhd3eb1b0_0
   - requests-oauthlib=1.3.0=py_0
   - rfc3339-validator=0.1.4=py310h06a4308_0
   - rfc3986-validator=0.1.1=py310h06a4308_0
   - rsa=4.7.2=pyhd3eb1b0_1
-  - scikit-image=0.20.0=py310h6a678d5_0
-  - scikit-learn=1.3.0=py310hf7d194e_0
-  - scipy=1.12.0=py310heeff2f4_0
   - send2trash=1.8.0=pyhd3eb1b0_1
   - sip=6.6.2=py310h6a678d5_0
   - six=1.16.0=pyhd3eb1b0_1
-  - snappy=1.1.9=h295c915_0
   - sniffio=1.2.0=py310h06a4308_1
   - soupsieve=2.4=py310h06a4308_0
   - sqlite=3.41.1=h5eee18b_0
@@ -224,13 +191,11 @@ dependencies:
   - tomli=2.0.1=py310h06a4308_0
   - toolz=0.12.0=py310h06a4308_0
   - tornado=6.2=py310h5eee18b_0
-  - tqdm=4.65.0=py310h2f386ee_0
   - traitlets=5.7.1=py310h06a4308_0
   - tzdata=2022g=h04d1e81_0
   - urllib3=1.26.15=py310h06a4308_0
   - wcwidth=0.2.5=pyhd3eb1b0_0
   - webencodings=0.5.1=py310h06a4308_1
-  - websocket-client=0.58.0=py310h06a4308_4
   - werkzeug=2.2.3=py310h06a4308_0
   - wheel=0.38.4=py310h06a4308_0
   - widgetsnbextension=4.0.5=py310h06a4308_0
@@ -239,14 +204,14 @@ dependencies:
   - y-py=0.5.9=py310h52d8a92_0
   - yaml=0.2.5=h7b6447c_0
   - yarl=1.8.1=py310h5eee18b_0
-  - ypy-websocket=0.8.2=py310h06a4308_0
   - zeromq=4.3.4=h2531618_0
   - zfp=0.5.5=h295c915_6
   - zipp=3.17.0=py310h06a4308_0
   - zlib=1.2.13=h5eee18b_0
-  - zstd=1.5.5=hc292b87_0
-  - setuptools=75.8.0
+  - setuptools=69.5.1
+  - pip=24.1.2
   - pip:
+      - --extra-index-url https://pypi.nvidia.com  # Corrected URL
       - array-record==0.5.1
       - bcrypt==4.2.0
       - colorama==0.4.6
@@ -258,38 +223,27 @@ dependencies:
       - etils==1.7.0
       - flatbuffers==24.3.25
       - grpcio==1.62.1
-      - h5py==3.10.0
       - humanfriendly==10.0
       - imageio==2.31.3
       - imageio-ffmpeg==0.4.9
-      - immutabledict==4.2.0
       - importlib-resources==6.4.0
       - js2py==0.74
       - keras==2.15.0
-      - llvmlite==0.40.1
-      - mako==1.3.5
       - markdown-it-py==3.0.0
       - mdurl==0.1.2
       - ml-dtypes==0.2.0
-      - mpmath==1.3.0
       - namex==0.0.7
-      - numba==0.57.1
       - numpy==1.26.4
       - nvidia-tensorrt==99.0.0
+      - nvidia-pyindex==1.0.9
       - onnx==1.16.0
       - onnx-graphsurgeon==0.3.27
       - onnxruntime==1.16.0
-      - optree==0.11.0
-      - paramiko==3.4.1
       - pillow==9.5.0
-      - pip==24.1.2
-      - proglog==0.1.10
       - pyqt6==6.5.2
       - pyqt6-qt6==6.5.2
       - pyqt6-sip==13.5.2
-      - pysmartdl==1.3.4
       - tensorflow==2.15.0
-      - tensorflow-datasets==4.9.5
       - tensorflow-estimator==2.15.0
       - tensorflow-metadata==1.15.0
       - tensorrt==8.6.1.post1
@@ -298,4 +252,4 @@ dependencies:
       - tf2onnx==1.16.0
       - typing-extensions==4.12.1
       - tzlocal==5.2
-prefix: /home/royce/anaconda3/envs/new
+prefix: /home/royce/anaconda3/envs/rtux
