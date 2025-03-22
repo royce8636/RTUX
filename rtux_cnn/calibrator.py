@@ -26,9 +26,9 @@ class Calibrator:
         self.cv_window = self.config.get_cv_window()
         # max_brightness = int(os.popen(f'adb {self.DEVICE_SERIAL} shell cat '
         #                               f'/sys/class/backlight/panel0-backlight/max_brightness').read().strip())
-        max_br = self.config.get_max_br()
-        print(max_br)
-        os.system(f'adb -s {self.config.device} shell settings put system screen_brightness {(max_br // 3) * 2}')
+        # max_br = self.config.get_max_br()
+        # print(max_br)
+        # os.system(f'adb -s {self.config.device} shell settings put system screen_brightness {(max_br // 3) * 2}')
 
         # Get the device's screen size
         size = os.popen(
@@ -40,15 +40,7 @@ class Calibrator:
         self.x_adj, self.y_adj, self.w, self.h = 0, 0, 0, 0
 
     def show_image_photos(self, image):
-        # os.system(f"adb -s {self.config.device} shell am force-stop com.google.android.apps.photos")
-        # os.system(
-        #     f"adb -s {self.config.device} shell am start -t image/* -d file:///mnt/sdcard/{image} -n "
-        #     f"com.google.android.apps.photos/.pager.HostPhotoPagerActivity")
-        # os.system(f"adb -s {self.config.device} shell input tap 500 500")
-        # time.sleep(1)
-        # os.system(f"adb -s {self.config.device} shell input tap 500 500")
 
-        # os.system(f"adb -s {self.config.device} shell am force-stop com.example.vlcrtux")
         os.system(f"adb -s {self.config.device} shell am start -n com.example.vlcrtux/.MainActivity")
         if "white" in image:
             print(f"adb -s {self.config.device} shell am broadcast -a com.example.vlcrtux.action.WHITE")
@@ -58,7 +50,6 @@ class Calibrator:
             os.system(f"adb -s {self.config.device} shell am broadcast -a com.example.vlcrtux.action.STEP")
 
     def create_step_wedge(self, size):
-        # Create and push step wedge image for given screen size
         size = (self.phone_width, self.phone_height)
         image = Image.new("L", size)  # Create a new grayscale image
         draw = ImageDraw.Draw(image)
@@ -114,10 +105,6 @@ class Calibrator:
             return None
 
     def set_position(self):
-        # Show white image for finding image
-        # white_image = Image.new('RGB', (self.phone_width, self.phone_height), 'white')
-        # white_image.save("white.png")
-        # subprocess.run(shlex.split(f'adb -s {self.config.device} push white.png /sdcard/white.png'))
         self.show_image_photos("white.png")
 
         # Initial camera set
@@ -260,7 +247,7 @@ if __name__ == "__main__":
     # cv2.resizeWindow('cam', 1280, 800)
 
     device = f"{get_adb_devices()}" if args['device'] is None else f"{args['device']}"
-
+    os.system(f"./turnon.sh {device}")
     os.system(f"./reset_cam.sh {args['camera']} {device}")
 
     config = Config(device=device, cap_ind=int(args['camera']), cv_window=True)

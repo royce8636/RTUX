@@ -145,12 +145,12 @@ if __name__ == "__main__":
     os.system(f"./turnon.sh {device}")
     max_br = Config().get_max_br()
 
-    os.system(f'adb -s {device} shell settings put system screen_brightness {int(max_br)}')
+    # os.system(f'adb -s {device} shell settings put system screen_brightness {int(max_br)}')
 
     # turn off auto rotate
     os.system(f"adb -s {device} shell content insert --uri content://settings/system --bind name:s:accelerometer_rotation --bind value:i:0")
     # put in portrait
-    os.system(f"adb -s {device} shell settings put system user_rotation 0")
+    # os.system(f"adb -s {device} shell settings put system user_rotation 0")
 
     shape = 128
 

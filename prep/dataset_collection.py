@@ -50,18 +50,18 @@ class TrueDataset:
     def display_vid(self, app, action, tf, device):
         self.device = device
         print(f"Displaying video for {app}, {action}/vid.avi")
-        if self.landscape is True:
-            os.system(f'adb -s {device} shell settings put system accelerometer_rotation 0')
-            os.system(f'adb -s {device} shell settings put system user_rotation 1')
-        else:
-            os.system(f'adb -s {device} shell settings put system accelerometer_rotation 1')
+        # if self.landscape is True:
+            # os.system(f'adb -s {device} shell settings put system accelerometer_rotation 0')
+            # os.system(f'adb -s {device} shell settings put system user_rotation 1')
+        # else:
+            # os.system(f'adb -s {device} shell settings put system accelerometer_rotation 1')
         os.system(f"adb -s {device} shell am force-stop com.example.vlcrtux")
         os.system(f"adb -s {device} shell am start -n com.example.vlcrtux/.MainActivity -d file:///mnt/sdcard/temp_pic/{app}/{action}/{tf}/vid.avi")
         print(f"adb -s {device} shell am start -n com.example.vlcrtux/.MainActivity -d file:///mnt/sdcard/temp_pic/{app}/{action}/{tf}/vid.avi")
         time.sleep(1)
 
     def change_settings(self, cam, start_num, device):
-        os.system(f"adb -s {device} shell settings put system screen_brightness {MAX_BRIGHTNESS}")
+        # os.system(f"adb -s {device} shell settings put system screen_brightness {MAX_BRIGHTNESS}")
 
         for _ in range(5):
             ret, frame = cam.read()
@@ -228,7 +228,7 @@ if __name__ == '__main__':
     max_br = config.get_max_br()
     MAX_BRIGHTNESS = max_br
 
-    os.system(f'adb -s {device} shell settings put system screen_brightness {int(max_br)}')
+    # os.system(f'adb -s {device} shell settings put system screen_brightness {int(max_br)}')
 
     calibration = Calibrator()
     calib = config.get_calib()
