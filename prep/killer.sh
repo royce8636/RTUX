@@ -34,5 +34,5 @@ adb ${adb_cmd} shell 'echo 1 > /proc/sys/vm/compact_memory'
 
 echo "Caches have been cleared."
 
-adb ${adb_cmd} shell content insert --uri content://settings/system --bind name:s:accelerometer_rotation --bind value:i:0
-# adb ${adb_cmd} shell settings put system user_rotation 0
+# adb ${adb_cmd} shell content insert --uri content://settings/system --bind name:s:accelerometer_rotation --bind value:i:0
+adb ${adb_cmd} shell settings put system user_rotation 0
