@@ -1,5 +1,8 @@
 package com.example.vlcrtux;
 
+
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.media.MediaMetadataRetriever;
@@ -163,15 +166,33 @@ public class MainActivity extends AppCompatActivity {
         thumbnailView.setVisibility(View.VISIBLE);
     }
 
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(
+                "vlcrtux_channel_id",
+                "VLC Rtux Channel",
+                NotificationManager.IMPORTANCE_HIGH
+            );
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        createNotificationChannel();
 
 //        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
 //        PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.SCREEN
+
+        if (!Settings.canDrawOverlays(this)) {
+            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    Uri.parse("package:" + getPackageName()));
+            startActivity(intent);
+        }
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 

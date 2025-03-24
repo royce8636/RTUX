@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 <!--    <uses-permission android:name="android.permission.ACTION"/>-->
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
 <!--    <uses-permission android:name="android.permission.DUMP" tools:ignore="ProtectedPermissions"/>-->
@@ -20,6 +22,12 @@
         android:exported="true"
         android:theme="@style/Theme.VLCRtux">
         <meta-data android:name="android.max_aspect" android:value="2.4"/>
+
+        <service
+            android:name=".LaunchActivityService"
+            android:foregroundServiceType="mediaPlayback"
+            android:exported="false" />
+
 
         <activity
             android:name=".MainActivity"
