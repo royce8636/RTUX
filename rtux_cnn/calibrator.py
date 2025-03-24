@@ -43,11 +43,11 @@ class Calibrator:
 
         os.system(f"adb -s {self.config.device} shell am start -n com.example.vlcrtux/.MainActivity")
         if "white" in image:
-            print(f"adb -s {self.config.device} shell am broadcast -a com.example.vlcrtux.action.WHITE")
-            os.system(f"adb -s {self.config.device} shell am broadcast -a com.example.vlcrtux.action.WHITE")
+            print(f"adb -s {self.config.device} shell am broadcast -a com.example.vlcrtux.action.WHITE -n com.example.vlcrtux/.ControlReceiver")
+            os.system(f"adb -s {self.config.device} shell am broadcast -a com.example.vlcrtux.action.WHITE -n com.example.vlcrtux/.ControlReceiver")
         elif "step" in image:
-            print(f"adb -s {self.config.device} shell am broadcast -a com.example.vlcrtux.action.STEP")
-            os.system(f"adb -s {self.config.device} shell am broadcast -a com.example.vlcrtux.action.STEP")
+            print(f"adb -s {self.config.device} shell am broadcast -a com.example.vlcrtux.action.STEP -n com.example.vlcrtux/.ControlReceiver")
+            os.system(f"adb -s {self.config.device} shell am broadcast -a com.example.vlcrtux.action.STEP -n com.example.vlcrtux/.ControlReceiver")
 
     def create_step_wedge(self, size):
         size = (self.phone_width, self.phone_height)

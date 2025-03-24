@@ -98,7 +98,7 @@ class TrueDataset:
                     time.sleep(0.5)
                 first = False
 
-            os.system(f"adb -s {device} shell am broadcast -a com.example.vlcrtux.action.PLAY")
+            os.system(f"adb -s {device} shell am broadcast -a com.example.vlcrtux.action.PLAY -n com.example.vlcrtux/.ControlReceiver")
             time.sleep(0.5)
             fps = FPS().start()
             print(f"Playing video")

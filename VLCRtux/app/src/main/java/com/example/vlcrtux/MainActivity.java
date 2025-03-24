@@ -192,8 +192,8 @@ public class MainActivity extends AppCompatActivity {
         filter.addAction("com.example.vlcrtux.action.WHITE");
         filter.addAction("com.example.vlcrtux.action.STEP");
 
-        receiver = new ControlReceiver();
-        registerReceiver(receiver, filter, Context.RECEIVER_NOT_EXPORTED);
+//        receiver = new ControlReceiver();
+//        registerReceiver(receiver, filter, Context.RECEIVER_NOT_EXPORTED);
 
     }
 
@@ -402,19 +402,43 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        setIntent(intent); // Update the intent
-        // Check if file is given
-        if (intent.getData() != null) {
-            Log.d("VideoDebug", "New video received");
-            clearVideoPlaybackFile();
-            try {
-                handleNewVideo(intent);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+        setIntent(intent);
+
+        if (intent.getAction() != null) {
+            switch (intent.getAction()) {
+                case "com.example.vlcrtux.action.PAUSE":
+                    if (mediaPlayer.isPlaying()) mediaPlayer.pause();
+                    break;
+                case "com.example.vlcrtux.action.PLAY":
+                    if (!mediaPlayer.isPlaying()) mediaPlayer.play();
+                    break;
+                case "com.example.vlcrtux.action.WHITE":
+                    showWhiteScreen();
+                    break;
+                case "com.example.vlcrtux.action.STEP":
+                    showStepWedge();
+                    break;
             }
         }
-
     }
+
+
+    //    @Override
+//    protected void onNewIntent(Intent intent) {
+//        super.onNewIntent(intent);
+//        setIntent(intent); // Update the intent
+//        // Check if file is given
+//        if (intent.getData() != null) {
+//            Log.d("VideoDebug", "New video received");
+//            clearVideoPlaybackFile();
+//            try {
+//                handleNewVideo(intent);
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
+//        }
+//
+//    }
 
     private void hideSystemUI() {
         // Enables regular immersive mode.

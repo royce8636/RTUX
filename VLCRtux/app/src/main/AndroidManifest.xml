@@ -39,8 +39,20 @@
                 <data android:scheme="file" />
                 <data android:scheme="content" />
             </intent-filter>
-
         </activity>
+
+        <receiver
+            android:name=".ControlReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.example.vlcrtux.action.PLAY"/>
+                <action android:name="com.example.vlcrtux.action.PAUSE"/>
+                <action android:name="com.example.vlcrtux.action.WHITE"/>
+                <action android:name="com.example.vlcrtux.action.STEP"/>
+            </intent-filter>
+        </receiver>
+
+
     </application>
 
 </manifest>

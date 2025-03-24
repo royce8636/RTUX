@@ -57,8 +57,9 @@ for dir in /sys/bus/usb/devices/*; do
                     fi
                     
 					adb $DEVICE_SERIAL shell am start -W com.example.vlcrtux/.MainActivity	
-					adb $DEVICE_SERIAL shell am broadcast -a com.example.vlcrtux.action.WHITE
-					sleep 2
+					adb $DEVICE_SERIAL shell am broadcast -a com.example.vlcrtux.action.WHITE -n com.example.vlcrtux/.ControlReceiver
+
+                    sleep 2
 
 					echo "Reauthorizing the camera..."
 
