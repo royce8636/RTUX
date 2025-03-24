@@ -1,2 +1,1 @@
-VLCRtux/app-debug.apk filter=lfs diff=lfs merge=lfs -text
 VLCRtux/VLCRtux.apk filter=lfs diff=lfs merge=lfs -text
