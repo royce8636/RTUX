@@ -11,18 +11,25 @@ import json
 try:
     from rtux_cnn.utils import CustomPrint, print
     from rtux_cnn.config import Config
+    from rtux_cnn.parse_v4l2 import parse_v4l2_output
 except ImportError:
     from utils import CustomPrint, print
     from config import Config
+    from parse_v4l2 import parse_v4l2_output
 
 
 class Calibrator:
-    def __init__(self):
+    def __init__(self, cap_ind):
         self.config = Config()
-        self.MIN_BR, self.MAX_BR = -64, 64
-        self.MIN_CR, self.MAX_CR = 0, 64
+
         self.wedge_steps = 10
         self.cap = self.config.get_camera()
+        
+        self.MIN_BR, self.MAX_BR = parse_v4l2_output(str(cap_ind), "brightness")
+        self.MIN_CR, self.MAX_CR = parse_v4l2_output(str(cap_ind), "contrast")
+        
+        print(f"MIN_BR: {self.MIN_BR}, MAX_BR: {self.MAX_BR}")
+
         self.cv_window = self.config.get_cv_window()
         # max_brightness = int(os.popen(f'adb {self.DEVICE_SERIAL} shell cat '
         #                               f'/sys/class/backlight/panel0-backlight/max_brightness').read().strip())
@@ -40,7 +47,6 @@ class Calibrator:
         self.x_adj, self.y_adj, self.w, self.h = 0, 0, 0, 0
 
     def show_image_photos(self, image):
-
         os.system(f"adb -s {self.config.device} shell am start -n com.example.vlcrtux/.MainActivity")
         if "white" in image:
             print(f"adb -s {self.config.device} shell am broadcast -a com.example.vlcrtux.action.WHITE -n com.example.vlcrtux/.ControlReceiver")
@@ -49,34 +55,12 @@ class Calibrator:
             print(f"adb -s {self.config.device} shell am broadcast -a com.example.vlcrtux.action.STEP -n com.example.vlcrtux/.ControlReceiver")
             os.system(f"adb -s {self.config.device} shell am broadcast -a com.example.vlcrtux.action.STEP -n com.example.vlcrtux/.ControlReceiver")
 
-    def create_step_wedge(self, size):
-        size = (self.phone_width, self.phone_height)
-        image = Image.new("L", size)  # Create a new grayscale image
-        draw = ImageDraw.Draw(image)
-
-        step_size = size[1] // self.wedge_steps  # Height of each step
-
-        for i in range(self.wedge_steps):
-            y1 = i * step_size
-            y2 = (i + 1) * step_size
-            draw.rectangle([(0, y1), (size[0], y2)], fill=i * (256 // (self.wedge_steps - 1)))
-
-        image.save("step_wedge.png")
-        subprocess.run(shlex.split(f'adb -s {self.config.device} push step_wedge.png /sdcard/step_wedge.png'))
-
     def set_cam_val(self, BR, CR, EXP, cap=None):
         if cap is None:
             cap = self.cap
         cap.set(cv2.CAP_PROP_BRIGHTNESS, BR)
         cap.set(cv2.CAP_PROP_CONTRAST, CR)
-        cap.set(cv2.CAP_PROP_SATURATION, 64)
-        cap.set(cv2.CAP_PROP_HUE, 0)
-        cap.set(cv2.CAP_PROP_GAMMA, 100)
-        cap.set(cv2.CAP_PROP_GAIN, 0)
         cap.set(cv2.CAP_PROP_AUTO_WB, 0)
-        cap.set(cv2.CAP_PROP_WB_TEMPERATURE, 6500)
-        cap.set(cv2.CAP_PROP_SHARPNESS, 3)
-        cap.set(cv2.CAP_PROP_BACKLIGHT, 1)
         cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
         cap.set(cv2.CAP_PROP_EXPOSURE, EXP)
 
@@ -105,7 +89,7 @@ class Calibrator:
             return None
 
     def set_position(self):
-        self.show_image_photos("white.png")
+        self.show_image_photos("white")
 
         # Initial camera set
         self.set_cam_val(-30, 32, 15, self.cap)
@@ -140,9 +124,7 @@ class Calibrator:
         return x_adj, y_adj, w, h
 
     def match_br(self):
-        # Open the step wedge image on the phone in Google Photos
-        # self.create_step_wedge((self.phone_width, self.phone_height))
-        self.show_image_photos('step_wedge.png')
+        self.show_image_photos('step_wedge')
         time.sleep(2)
         # Initial settings
         self.set_cam_val(0, 32, 15, self.cap)
@@ -180,9 +162,8 @@ class Calibrator:
                         EXPOSURE += 1
                     elif (mean_diff) < -10:
                         EXPOSURE -= 1
-                CONTRAST = 32
+                CONTRAST = (self.MAX_CR - self.MIN_CR) // 2
                 count = change_val.count((BRIGHTNESS, CONTRAST, EXPOSURE))  # Count the occurrences of the values
-                # count = change_val.count((BRIGHTNESS, CONTRAST))  # Count the occurrences of the values
                 if count > 6:
                     print(f"FINAL:\n"
                           f"Brightness: {BRIGHTNESS}, Contrast: {CONTRAST}, Exposure: {EXPOSURE}\n"
@@ -190,8 +171,6 @@ class Calibrator:
                     break
                 print(f"BRIGHTNESS: {BRIGHTNESS}, CONTRAST: {CONTRAST}, EXP: {EXPOSURE}, count: {count}", end='\r')
                 self.set_cam_val(BRIGHTNESS, CONTRAST, EXPOSURE, self.cap)
-                # cv2.imwrite("final_frame.png", frame)
-                # cv2.imwrite("final_org.png", org_frame)
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     print("WRONG EXIT: EXITED FROM WINDOW")
                     return None
@@ -252,7 +231,7 @@ if __name__ == "__main__":
 
     config = Config(device=device, cap_ind=int(args['camera']), cv_window=True)
 
-    calibration = Calibrator()
+    calibration = Calibrator(int(args['camera']))
     calibration.set_position()
     br, cr, exp = calibration.match_br()
     calibration.json_writer(br, cr, exp, args['output'])
