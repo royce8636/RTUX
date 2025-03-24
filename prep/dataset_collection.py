@@ -225,8 +225,8 @@ if __name__ == '__main__':
     cap.set(cv2.CAP_PROP_FPS, 120)
 
     os.system(f"./turnon.sh {device}")
-    max_br = config.get_max_br()
-    MAX_BRIGHTNESS = max_br
+    # max_br = config.get_max_br()
+    MAX_BRIGHTNESS = 500
 
     # os.system(f'adb -s {device} shell settings put system screen_brightness {int(max_br)}')
 

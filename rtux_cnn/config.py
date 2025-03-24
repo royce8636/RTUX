@@ -28,8 +28,8 @@ class Config:
                 cv2.resizeWindow(cls._instance.cv_window, 1280, 800)
             else:
                 cls._instance.cv_window = None
-            cls._instance.max_br = int(os.popen(f'adb -s {device} shell cat '
-                                                f'/sys/class/backlight/panel0-backlight/max_brightness').read().strip())
+            # cls._instance.max_br = int(os.popen(f'adb -s {device} shell cat '
+                                                # f'/sys/class/backlight/panel0-backlight/max_brightness').read().strip())
 
             cls._instance.device = device if device is not None else ''
             cls._instance.calib = calib
@@ -85,5 +85,6 @@ class Config:
         return self.calib
 
     def get_max_br(self):
-        return self.max_br
+        return 500
+        # return self.max_br
 

@@ -82,7 +82,7 @@ if __name__ == "__main__":
     config = Config(cap_ind=args['camera'], device=device, calib=args['calibrate'], cv_window=False)
 
     os.system(f"./turnon.sh {device}")
-    max_br = Config().get_max_br()
+    # max_br = Config().get_max_br()
     # os.system(f'adb -s {device} shell settings put system screen_brightness {int(max_br)}')
 
     cam = config.get_camera()
