@@ -1,4 +1,4 @@
-name: rtux
+name: new
 channels:
   - nvidia
   - anaconda
@@ -252,4 +252,5 @@ dependencies:
       - tf2onnx==1.16.0
       - typing-extensions==4.12.1
       - tzlocal==5.2
-prefix: /home/royce/anaconda3/envs/rtux
+      - opencv-contrib-python==4.6.0.66
+prefix: /home/royce/anaconda3/envs/new
