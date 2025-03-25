@@ -58,11 +58,20 @@ class Calibrator:
     def set_cam_val(self, BR, CR, EXP, cap=None):
         if cap is None:
             cap = self.cap
-        cap.set(cv2.CAP_PROP_BRIGHTNESS, BR)
-        cap.set(cv2.CAP_PROP_CONTRAST, CR)
-        cap.set(cv2.CAP_PROP_AUTO_WB, 0)
-        cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
-        cap.set(cv2.CAP_PROP_EXPOSURE, EXP)
+
+        settings = [
+            ("Brightness", cv2.CAP_PROP_BRIGHTNESS, BR),
+            ("Contrast", cv2.CAP_PROP_CONTRAST, CR),
+            ("Auto White Balance OFF", cv2.CAP_PROP_AUTO_WB, 0),
+            ("Auto Exposure", cv2.CAP_PROP_AUTO_EXPOSURE, 1),
+            ("Exposure", cv2.CAP_PROP_EXPOSURE, EXP)
+        ]
+
+        for name, prop, val in settings:
+            success = cap.set(prop, val)
+            if not success:
+                print(f"Set {name} to {val}: Failed")
+
 
     def find_phone(self, frame_img):
         """Find the phone inside the screen to cut the frames"""
