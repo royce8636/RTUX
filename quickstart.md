@@ -11,6 +11,11 @@
 
 **Before proceeding, please make sure that USB Debugging is enabled in Developer Options in the phone being tested. After it has been enabled and connected to the computer, using `adb devices`, check if your phone has been connected properly.**
 
+### (A) Camera Setup
+1. Connect the camera that will be used for benchmarking to the controlloing computer, and get the index of the camera
+    - `ls /dev/video*` lists the available cameras. The index of the camera is the first one that is listed, which will be 0 (`ls /dev/video0`) in most cases
+2. Allow camera to be accessible by doing `sudo chmod 666 /dev/video<index>`
+
 ### (A) Script Setup
 **Note: Script setup is not needed if using SDK level 34**
 1. Build `sync_linux.c`
@@ -41,9 +46,9 @@ The Quickstart uses multiqueue.txt scenario, which assumes that games **Hill Cli
     - Clash of Clans: 17.18.13
     - Minecraft Trial: 1.21.62.01
 ## Execution
-1. Calibrate the cameras
+1. Calibrate the cameras ([Demo video](https://youtu.be/R92eGvli7UE))
     - `python3 rtux_cnn/calibrator.py -o hdk.txt -c 0`
-2. Run `rtux_main.py` 
+2. Run `rtux_main.py` ([Demo video](https://youtu.be/99ocM8-5nS0))
     - `python3 rtux_main.py -c 0 -C hdk.txt -f dataset/multiqueue.txt -a -D 9e09341 -r 101 -p perfetto_configs/extensive_config.pbtx`
     - Reduce `-r` to reduce the number of iterations done
 ## Expected Outputs
