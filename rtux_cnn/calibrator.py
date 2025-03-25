@@ -95,8 +95,8 @@ class Calibrator:
         self.set_cam_val(-30, 32, 15, self.cap)
 
         # Find phone
-        ratio = self.phone_width / self.phone_height
-        print(f"RATIO: {ratio}")
+        phone_ratio = max(self.phone_width, self.phone_height) / min(self.phone_width, self.phone_height)
+        print(f"RATIO: {phone_ratio}")
         x_adj, y_adj, w, h = 0, 0, 0, 0
         while self.cap.isOpened():
             ret, frame = self.cap.read()
@@ -110,13 +110,14 @@ class Calibrator:
                     cv2.imshow(self.cv_window, frame)
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
+                screen_ratio = max(w, h) / min(w, h)
                 try:
                     x_adj, y_adj, w, h = new
-                    if (ratio - 0.1) < (w / h) < (ratio + 0.1) and (w * h > 1280 * 800 * 0.1):
+                    if abs(screen_ratio - phone_ratio) < 0.1 and (w * h > 1280 * 800 * 0.1):
                         print(f"FINAL SCREEN: {w} x {h}, x_adj: {x_adj}, y_adj: {y_adj} ratio: {w / h}")
                         break
                     else:
-                        print(f"SCREEN: {w} x {h}, ratio: {w / h} | {bool((ratio - 0.1) < (w / h) < (ratio + 0.1))}, {bool(w * h > 1280 * 800 * 0.2)}")
+                        print(f"SCREEN: {w} x {h}, ratio: {w / h} | {bool(abs(screen_ratio - phone_ratio) < 0.1)}, {bool(w * h > 1280 * 800 * 0.2)}")
                 except (ZeroDivisionError, TypeError) as e:
                     pass
 

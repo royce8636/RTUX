@@ -52,6 +52,7 @@ The Quickstart uses multiqueue.txt scenario, which assumes that games **Hill Cli
     - `python3 rtux_main.py -c 0 -C hdk.txt -f dataset/multiqueue.txt -a -r 101 -p perfetto_configs/extensive_config.pbtx`
     - Reduce `-r` to reduce the number of iterations done
     - Please include a flag `-D <device serial from adb devices>` if there are multiple Android devices connected to the controlling computer.
+    - Remove `-a` flag if you don't want to save all the photos that has been taken throughout the test. For 100 iterations of the givens scenario, it will save about 2,500,000 images, taking up about 150GB just for the photos. 
 ## Expected Outputs
 At the end of all iterations or after force-stopping and cleanup (CTRL-C), RTUX will report different metrics. The expected outputs are as follow:
 ```
