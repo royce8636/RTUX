@@ -1,3 +1,7 @@
+logs/*
+!logs/README.md
+dataset/*
+!dataset/README.md
 hdk.txt
 *.jpeg
 *.jpg

@@ -20,7 +20,7 @@ def convert_to_onnx(model_dir, batch_size, input_size):
     with tf.Graph().as_default() as tf_graph:
         tf.import_graph_def(graph_def, name="")
     with tf_loader.tf_session(graph=tf_graph):
-        onnx_graph = tfonnx.process_tf_graph(tf_graph, input_names=inputs, output_names=outputs, opset=11)
+        onnx_graph = tfonnx.process_tf_graph(tf_graph, input_names=inputs, output_names=outputs, opset=17)
     onnx_model = optimizer.optimize_graph(onnx_graph).make_model("Converted from {}".format(saved_model_path))
 
 

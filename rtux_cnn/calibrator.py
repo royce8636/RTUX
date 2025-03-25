@@ -19,7 +19,7 @@ except ImportError:
 
 
 class Calibrator:
-    def __init__(self, cap_ind):
+    def __init__(self, cap_ind=0):
         self.config = Config()
 
         self.wedge_steps = 10

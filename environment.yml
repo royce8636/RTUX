@@ -237,7 +237,7 @@ dependencies:
       - nvidia-tensorrt==99.0.0
       - nvidia-pyindex==1.0.9
       - onnx==1.16.0
-      - onnx-graphsurgeon==0.3.27
+      - onnx-graphsurgeon==0.3.25
       - onnxruntime==1.16.0
       - pillow==9.5.0
       - pyqt6==6.5.2
