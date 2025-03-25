@@ -95,7 +95,7 @@ class Calibrator:
         self.set_cam_val(-30, 32, 15, self.cap)
 
         # Find phone
-        ratio = self.phone_height / self.phone_width
+        ratio = self.phone_width / self.phone_height
         print(f"RATIO: {ratio}")
         x_adj, y_adj, w, h = 0, 0, 0, 0
         while self.cap.isOpened():
@@ -112,7 +112,7 @@ class Calibrator:
                     break
                 try:
                     x_adj, y_adj, w, h = new
-                    if (ratio - 0.1) < (w / h) < (ratio + 0.1) and (w * h > 1280 * 800 * 0.2):
+                    if (ratio - 0.1) < (w / h) < (ratio + 0.1) and (w * h > 1280 * 800 * 0.1):
                         print(f"FINAL SCREEN: {w} x {h}, x_adj: {x_adj}, y_adj: {y_adj} ratio: {w / h}")
                         break
                     else:

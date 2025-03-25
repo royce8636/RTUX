@@ -25,7 +25,7 @@
 3. Build `replay.c`
     - `clang --target=aarch64-linux-android34 -fPIE -fPIC -o mysendevent prep/replay.c -pie`
 
-**Replace android34 with corresponding SDK version, which can be found by doing `adb shell getprop ro.build.version.sdk` like `android[sdk]`**
+**Replace android34 with corresponding SDK version, which can be found by doing `adb shell getprop ro.build.version.sdk` like `android<sdk>`**
 
 ### (B) Model Setup
 **Note: Model setup is not needed if using GPU with compute capability of 8.9 (e.g., RTX 4090)**
@@ -49,8 +49,9 @@ The Quickstart uses multiqueue.txt scenario, which assumes that games **Hill Cli
 1. Calibrate the cameras ([Demo video](https://youtu.be/R92eGvli7UE))
     - `python3 rtux_cnn/calibrator.py -o hdk.txt -c 0`
 2. Run `rtux_main.py` ([Demo video](https://youtu.be/99ocM8-5nS0))
-    - `python3 rtux_main.py -c 0 -C hdk.txt -f dataset/multiqueue.txt -a -D 9e09341 -r 101 -p perfetto_configs/extensive_config.pbtx`
+    - `python3 rtux_main.py -c 0 -C hdk.txt -f dataset/multiqueue.txt -a -r 101 -p perfetto_configs/extensive_config.pbtx`
     - Reduce `-r` to reduce the number of iterations done
+    - Please include a flag `-D <device serial from adb devices>` if there are multiple Android devices connected to the controlling computer.
 ## Expected Outputs
 At the end of all iterations or after force-stopping and cleanup (CTRL-C), RTUX will report different metrics. The expected outputs are as follow:
 ```
