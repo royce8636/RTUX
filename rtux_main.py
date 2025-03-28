@@ -48,7 +48,11 @@ def get_args(argv=None):
                         help='How much memory to allocate to the GPU')
     parser.add_argument('-S', '--strict', action='store_true',
                         help='Strict mode: removes every abnormal turn ')
-    parser.add_argument('-p', '--perfetto', type=str, required=True,
+    parser.add_argument('-F', '--fio', action='store_true',
+                        help='Turn on FIO?')
+    parser.add_argument('-R', '--reran', action='store_true',
+                        help='RERAN MODE: RTUX will not run, only reran will be run')
+    parser.add_argument('-p', '--perfetto', type=str, default=None,
                         help='Perfetto trace configuration file')
     return parser.parse_args(argv)
 

@@ -3,6 +3,7 @@ logs/*
 dataset/*
 !dataset/README.md
 hdk.txt
+perfetto/
 *.jpeg
 *.jpg
 *.png

@@ -196,6 +196,8 @@ class QueueHandler:
 
 
     def kill_perfetto(self):
+        if self.args.perfetto is None:
+            return False
         os.killpg(os.getpgid(self.process.pid), signal.SIGTERM)
         
         found = False
@@ -237,7 +239,9 @@ class QueueHandler:
 
     def start_perfetto(self):
         self.abnormal = False
-        
+        if self.args.perfetto is None:
+            print("No perfetto trace file provided")
+            return
         cmd = f"cat {self.args.perfetto} | adb -s {self.config.device} shell perfetto -c - --txt -o {self.perfetto_out}"
         self.process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, 
                                         stderr=subprocess.PIPE, preexec_fn=os.setsid)
@@ -282,27 +286,28 @@ class QueueHandler:
             self.push_proc = None
 
         """FIO"""
-        # self.push_proc = subprocess.Popen(f"""adb -s {self.config.device} shell ./data/local/tmp/fio \
-        #                 --direct=0 --rw=write --bs=128k --ioengine=sync --size=25G\
-        #                 --numjobs=3 --rate=,60m --rate_process=poisson\
-        #                 --group_reporting --name=iops-test-job --eta-newline=1 \
-        #                 --directory=/data/media/0""", # /mnt/sdcard, /data/media/0
-        #                 shell=True,
-        #                 preexec_fn=os.setsid,
-        #                 stdout=subprocess.PIPE,
-        #                 stderr=subprocess.PIPE,
-        #                 text=True  # Use 'universal_newlines=True' if 'text' is not available                        
-        #                 )
-        # while True:
-        #     output = self.push_proc.stdout.readline()
-        #     if output == '' and self.push_proc.poll() is not None:
-        #         break
-        #     if output:
-        #         print(output.strip())
-        #         if f"fio-3.37" in output:
-        #             print("Desired output detected.")
-        #             break
-        # print("FIO STARTED")
+        if self.args.fio:
+            self.push_proc = subprocess.Popen(f"""adb -s {self.config.device} shell ./data/local/tmp/fio \
+                            --direct=0 --rw=write --bs=128k --ioengine=sync --size=25G\
+                            --numjobs=3 --rate=,60m --rate_process=poisson\
+                            --group_reporting --name=iops-test-job --eta-newline=1 \
+                            --directory=/data/media/0""", # /mnt/sdcard, /data/media/0
+                            shell=True,
+                            preexec_fn=os.setsid,
+                            stdout=subprocess.PIPE,
+                            stderr=subprocess.PIPE,
+                            text=True  # Use 'universal_newlines=True' if 'text' is not available                        
+                            )
+            while True:
+                output = self.push_proc.stdout.readline()
+                if output == '' and self.push_proc.poll() is not None:
+                    break
+                if output:
+                    print(output.strip())
+                    if f"fio-3.37" in output:
+                        print("Desired output detected.")
+                        break
+            print("FIO STARTED")
         
         count = 0
         for i in range(self.ind + 1, len(self._queue)):
@@ -631,6 +636,8 @@ class QueueHandler:
                     self.rtux.writer(val, None, time.clock_gettime(time.CLOCK_BOOTTIME), self.rtux.count, "INFO", "Touch", 0, self.ind)
                     self.shell_running = subprocess.Popen(val, preexec_fn=os.setsid)
                     print(f"Started shell command {val} ({self.shell_running.pid})")
+                    if self.args.reran:
+                        self.shell_running.wait()
                 elif "am start" in val and "HOME" not in val:
                     if self.shell_running is not None:
                         print(f"Killing shell command {self.shell_running.pid}")
